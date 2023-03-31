@@ -38,12 +38,12 @@ described in `mongo.yaml`.
 
 #### Interacting with Mongo from within the POD
 
-```
-arun:k8s estebangarviso$ kubectl get pods
-arun:k8s estebangarviso$ kubectl get pod mongo-controller-5b3dl
+```bash
+egarv:k8s estebangarviso$ kubectl get pods
+egarv:k8s estebangarviso$ kubectl get pod mongo-controller-5b3dl
 NAME                     READY     STATUS    RESTARTS   AGE
 mongo-controller-5b3dl   1/1       Running   0          5m
-arun:k8s estebangarviso$ kubectl exec -it mongo-controller-5b3dl -- /bin/bash
+egarv:k8s estebangarviso$ kubectl exec -it mongo-controller-5b3dl -- /bin/bash
 ```
 
 ### Node Service
@@ -56,8 +56,8 @@ arun:k8s estebangarviso$ kubectl exec -it mongo-controller-5b3dl -- /bin/bash
 
 - `minikube start` to start the local kubernetes cluster which takes a while to get the cluster ready.
 
-  ```
-       arun:k8s estebangarviso$ minikube start
+  ```bash
+       egarv:k8s estebangarviso$ minikube start
        There is a newer version of minikube available (v0.19.0).  Download it here:
        https://github.com/kubernetes/minikube/releases/tag/v0.19.0
 
@@ -71,31 +71,31 @@ arun:k8s estebangarviso$ kubectl exec -it mongo-controller-5b3dl -- /bin/bash
        Connecting to cluster...
        Setting up kubeconfig...
        Kubectl is now configured to use the cluster.
-       arun:k8s estebangarviso$
+       egarv:k8s estebangarviso$
   ```
 
 - Deploy and start up the `mongo` service using the descriptor file `mongo.yaml`
 
-  ```
-   arun:k8s estebangarviso$ kubectl create -f mongo.yaml
+  ```bash
+   egarv:k8s estebangarviso$ kubectl create -f mongo.yaml
    replicationcontroller "mongo-controller" created
    service "mongo-service" created
-   arun:k8s estebangarviso$
+   egarv:k8s estebangarviso$
   ```
 
   Check that the pod and service are created and running successfully:
 
-  ```
-  arun:k8s estebangarviso$ kubectl get pods
+  ```bash
+  egarv:k8s estebangarviso$ kubectl get pods
   NAME                     READY     STATUS    RESTARTS   AGE
   mongo-controller-srq9f   1/1       Running   0          8m
 
 
-  arun:k8s estebangarviso$ kubectl get services
+  egarv:k8s estebangarviso$ kubectl get services
   NAME            CLUSTER-IP   EXTERNAL-IP   PORT(S)     AGE
   kubernetes      10.0.0.1     <none>        443/TCP     27d
   mongo-service   10.0.0.111   <none>        27017/TCP   8m
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
   ```
 
@@ -105,74 +105,74 @@ arun:k8s estebangarviso$ kubectl exec -it mongo-controller-5b3dl -- /bin/bash
 
 - Deploy and start up the Node service
 
-  ```
-  arun:k8s estebangarviso$ kubectl create -f backend.yaml
+  ```bash
+  egarv:k8s estebangarviso$ kubectl create -f backend.yaml
   deployment "backend" created
   service "backend" created
 
-  arun:k8s estebangarviso$ kubectl get pods
+  egarv:k8s estebangarviso$ kubectl get pods
   NAME                       READY     STATUS    RESTARTS   AGE
   backend-2415081020-tmx44   1/1       Running   0          51s
   mongo-controller-srq9f     1/1       Running   0          21m
 
 
-  arun:k8s estebangarviso$ kubectl get services
+  egarv:k8s estebangarviso$ kubectl get services
   NAME            CLUSTER-IP   EXTERNAL-IP   PORT(S)     AGE
   backend         10.0.0.88    <none>        8080/TCP    1m
   kubernetes      10.0.0.1     <none>        443/TCP     27d
   mongo-service   10.0.0.111   <none>        27017/TCP   21m
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
   ```
 
 - Deploy and start the Front End
 
-  ```
-  arun:k8s estebangarviso$ kubectl create -f client.yaml
+  ```bash
+  egarv:k8s estebangarviso$ kubectl create -f client.yaml
   deployment "frontend" created
   service "frontend" created
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
-  arun:k8s estebangarviso$ kubectl get pods
+  egarv:k8s estebangarviso$ kubectl get pods
   NAME                        READY     STATUS    RESTARTS   AGE
   backend-2415081020-tmx44    1/1       Running   0          8m
   frontend-3251706051-p7770   1/1       Running   0          31s
   mongo-controller-srq9f      1/1       Running   0          29m
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
-  arun:k8s estebangarviso$ kubectl get services
+  egarv:k8s estebangarviso$ kubectl get services
   NAME            CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
   backend         10.0.0.88    <none>        8080/TCP         9m
   frontend        10.0.0.86    <nodes>       8888:32318/TCP   52s
   kubernetes      10.0.0.1     <none>        443/TCP          27d
   mongo-service   10.0.0.111   <none>        27017/TCP        29m
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
   ```
 
 - Access the application from outside the cluster
 
-  ```
-  arun:k8s estebangarviso$ minikube service frontend
+  ```bash
+  egarv:k8s estebangarviso$ minikube service frontend
   Opening kubernetes service default/frontend in default browser...
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
   ```
 
   To just list the url of the service:
 
-  ```
-  arun:k8s estebangarviso$ minikube service frontend --url
+  ```bash
+  egarv:k8s estebangarviso$ minikube service frontend --url
   http://192.168.99.100:32318
-  arun:k8s estebangarviso$
+  egarv:k8s estebangarviso$
 
   ```
 
 ### Using ConfigMap
 
-We hardcoded value for the `MONGO_URI` env variable to `mongo-service` in our deployment yaml for backend.
+We hardcoded value for the `DATABASE_URL` env variable to `mongo-service` in our deployment yaml for backend.
 
-```
+```bash
     spec:
       containers:
         - name: backend
@@ -180,7 +180,7 @@ We hardcoded value for the `MONGO_URI` env variable to `mongo-service` in our de
           ports:
           - containerPort: 8080
           env:
-            - name: MONGO_URI
+            - name: DATABASE_URL
               value: mongo-service
 ```
 
@@ -192,14 +192,14 @@ is completely separate from the image.
 
 Create a backend config map yaml `backend-config.yaml` with the relevant config data:
 
-```
+```bash
     apiVersion: v1
     kind: ConfigMap
     metadata:
       name: backend-config
       namespace: default
     data:
-      MONGO_URI: mongo-service
+      DATABASE_URL: mongo-service
       customer_message: message overridden from configmap
 ```
 
@@ -209,10 +209,10 @@ or from literal
 
 `kubectl create configmap backend-config --from-literal=mongo.host=mongo-service --from-literal=customer.message='original message modified'`
 
-```
-    arun:k8s estebangarviso$ kubectl create configmap backend-config --from-file=backend-config
+```bash
+    egarv:k8s estebangarviso$ kubectl create configmap backend-config --from-file=backend-config
     configmap "backend-config" created
-    arun:k8s estebangarviso$ kubectl describe configmap backend-config
+    egarv:k8s estebangarviso$ kubectl describe configmap backend-config
     Name:		backend-config
     Namespace:	default
     Labels:		<none>
@@ -222,9 +222,9 @@ or from literal
     ====
     backend-config.properties:
     ----
-    MONGO_URI=mongo-service
+    DATABASE_URL=mongo-service
     customer.message="Message overwritten from configmap"
-    arun:k8s estebangarviso$
+    egarv:k8s estebangarviso$
 
 ```
 

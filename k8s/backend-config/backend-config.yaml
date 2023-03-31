@@ -4,5 +4,5 @@ metadata:
   name: backend-config
   namespace: default
 data:
-  MONGO_URI: mongo-service
+  DATABASE_URL: mongo-service
   customer_message: message overridden from configmap

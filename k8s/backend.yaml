@@ -17,7 +17,7 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: MONGO_URI
+            - name: DATABASE_URL
               value: mongo-service
 ---
 apiVersion: v1

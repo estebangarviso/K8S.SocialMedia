@@ -17,19 +17,66 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            #mongodb host
-            - name: MONGO_URI
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: access.token.secret
+            - name: ACCESS_TOKEN_EXPIRES_IN
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: access.token.expires.in
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: port
+            - name: FRONTEND_ORIGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: frontend.origin
+            - name: WEBSOCKET_SERVER_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: websocket.server.key
+            - name: DATABASE_URL
               valueFrom:
                 configMapKeyRef:
                   name: backend-config
                   key: mongo.host
-            #customer message
-            - name: customer_message
+            - name: DATABASE_NAME
               valueFrom:
                 configMapKeyRef:
                   name: backend-config
-                  key: customer.message
-
+                  key: mongo.db
+            - name: SKIP_VALIDATION
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: skip.validation
+            - name: SALT_WORK_FACTOR
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: salt.work.factor
+            - name: PAGE_SIZES
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: page.sizes
+            - name: MAINTENANCE_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: maintenance.mode
+            - name: MAINTENANCE_MODE_WHITELIST_IPS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: maintenance.mode.whitelist.ips
 ---
 apiVersion: v1
 kind: Service
